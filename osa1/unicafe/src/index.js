@@ -1,12 +1,31 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+const Button = ({ handleClick, text }) => (
+  <button onClick={handleClick}>
+    {text}
+  </button>
+)
+
+const Statistic = ({label, text}) => (
+  <div>{label}: {text}</div>
+)
+
+const Statistics = ({label, valueHyva, valueNeutraali, valueHuono, keskiarvo, positiivisia}) => (
+  <div>
+    <h2>{label}</h2>
+    <Statistic label="hyvä" text={valueHyva} />
+    <Statistic label="neutraali" text={valueNeutraali} />
+    <Statistic label="huono" text={valueHuono} />
+    <Statistic label="keskiarvo" text={keskiarvo} />
+    <Statistic label="positiivisia" text={positiivisia} />
+  </div>
+)
+
+
 class App extends React.Component {
   constructor(props) {
     super(props)
-    this.clickHyva = this.clickHyva.bind(this);
-    this.clickNeutraali = this.clickNeutraali.bind(this);
-    this.clickHuono = this.clickHuono.bind(this);
     this.state = {
       palauteHyvä: 0,
       palauteNeutraali: 0,
@@ -22,15 +41,15 @@ class App extends React.Component {
     console.log("componentWillUnmount()")
   }
 
-  clickHyva() {
+  clickHyva = () => {
     this.setState({palauteHyvä : this.state.palauteHyvä + 1})
   }
 
-  clickNeutraali() {
+  clickNeutraali = () => {
     this.setState({palauteNeutraali : this.state.palauteNeutraali + 1})
   }
 
-  clickHuono() {
+  clickHuono = () => {
     this.setState({palauteHuono : this.state.palauteHuono + 1})
   }
 
@@ -51,21 +70,16 @@ class App extends React.Component {
     }
     return "-";
   }
-                    
 
   render() {
     return (
       <div>
         <h1>Anna palautetta</h1>
-        <button onClick={this.clickHyva}>hyvä</button>
-        <button onClick={this.clickNeutraali}>neutraali</button>
-        <button onClick={this.clickHuono}>huono</button>
-        <h2>Statistiikka</h2>
-        <div>hyvä: {this.state.palauteHyvä}</div>
-        <div>neutraali: {this.state.palauteNeutraali}</div>
-        <div>huono: {this.state.palauteHuono}</div>
-        <div>keskiarvo: {this.keskiarvo()}</div>
-        <div>positiivisia: {this.positiivisia()}</div>
+        <Button handleClick={this.clickHyva} text="hyvä" />
+        <Button handleClick={this.clickNeutraali} text="neutraali" />
+        <Button handleClick={this.clickHuono} text="huono" />
+        <Statistics label="Statistiikka" valueHyva={this.state.palauteHyvä} valueNeutraali={this.state.palauteNeutraali}
+          valueHuono={this.state.palauteHuono} keskiarvo={this.keskiarvo()} positiivisia={this.positiivisia()} />
       </div>
       )
   }
