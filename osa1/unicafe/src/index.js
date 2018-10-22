@@ -11,17 +11,49 @@ const Statistic = ({label, text}) => (
   <div>{label}: {text}</div>
 )
 
-const Statistics = ({label, valueHyva, valueNeutraali, valueHuono, keskiarvo, positiivisia}) => (
-  <div>
-    <h2>{label}</h2>
-    <Statistic label="hyvä" text={valueHyva} />
-    <Statistic label="neutraali" text={valueNeutraali} />
-    <Statistic label="huono" text={valueHuono} />
-    <Statistic label="keskiarvo" text={keskiarvo} />
-    <Statistic label="positiivisia" text={positiivisia} />
-  </div>
-)
+class Statistics extends React.Component {
 
+  keskiarvo() {
+    let sum = this.palautteetSumma();
+    if (sum > 0) {
+      return (((this.props.valueHuono * -1.0) +
+             (this.props.valueNeutraali * 0.0) +
+             (this.props.valueHyva * 1.0)) / sum).toPrecision(2);
+    }
+    return "-";
+  }
+
+  palautteetSumma() {
+    return parseInt(this.props.valueHyva) + parseInt(this.props.valueNeutraali) + parseInt(this.props.valueHuono);
+  }
+
+  positiivisia() {
+    let sum = this.palautteetSumma();
+    if (sum > 0) {
+      return (100.0 * this.props.valueHyva / sum).toFixed(1) + "%"
+    }
+    return "-";
+  }
+
+  render() {
+    return (
+        <div>
+          <h2>{this.props.label}</h2>
+          {this.palautteetSumma() < 1 ? (
+            <p>Ei annettuja palautteita.</p>
+          ) : (
+          <div>
+          <Statistic label="hyvä" text={this.props.valueHyva} />
+          <Statistic label="neutraali" text={this.props.valueNeutraali} />
+          <Statistic label="huono" text={this.props.valueHuono} />
+          <Statistic label="keskiarvo" text={this.keskiarvo()} />
+          <Statistic label="positiivisia" text={this.positiivisia()} />
+          </div>
+          )}
+        </div>
+    )
+  }
+}
 
 class App extends React.Component {
   constructor(props) {
@@ -53,24 +85,6 @@ class App extends React.Component {
     this.setState({palauteHuono : this.state.palauteHuono + 1})
   }
 
-  keskiarvo() {
-    let sum = this.state.palauteHuono + this.state.palauteNeutraali + this.state.palauteHyvä;
-    if (sum > 0) {
-      return (((this.state.palauteHuono * -1.0) +
-             (this.state.palauteNeutraali * 0.0) +
-             (this.state.palauteHyvä * 1.0)) / sum).toPrecision(2);
-    }
-    return "-";
-  }
-
-  positiivisia() {
-    let sum = this.state.palauteHuono + this.state.palauteNeutraali + this.state.palauteHyvä;
-    if (sum > 0) {
-      return (100.0 * this.state.palauteHyvä / sum).toFixed(1) + "%"
-    }
-    return "-";
-  }
-
   render() {
     return (
       <div>
@@ -79,7 +93,7 @@ class App extends React.Component {
         <Button handleClick={this.clickNeutraali} text="neutraali" />
         <Button handleClick={this.clickHuono} text="huono" />
         <Statistics label="Statistiikka" valueHyva={this.state.palauteHyvä} valueNeutraali={this.state.palauteNeutraali}
-          valueHuono={this.state.palauteHuono} keskiarvo={this.keskiarvo()} positiivisia={this.positiivisia()} />
+          valueHuono={this.state.palauteHuono} />
       </div>
       )
   }
