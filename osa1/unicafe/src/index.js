@@ -37,11 +37,11 @@ class Statistics extends React.Component {
 
   render() {
     return (
-        <div>
-          <h2>{this.props.label}</h2>
-          {this.palautteetSumma() < 1 ? (
-            <p>Ei annettuja palautteita.</p>
-          ) : (
+      <div>
+        <h2>{this.props.label}</h2>
+        {this.palautteetSumma() < 1 ? (
+          <p>Ei annettuja palautteita.</p>
+        ) : (
           <div>
           <Statistic label="hyvä" text={this.props.valueHyva} />
           <Statistic label="neutraali" text={this.props.valueNeutraali} />
@@ -49,8 +49,8 @@ class Statistics extends React.Component {
           <Statistic label="keskiarvo" text={this.keskiarvo()} />
           <Statistic label="positiivisia" text={this.positiivisia()} />
           </div>
-          )}
-        </div>
+        )}
+      </div>
     )
   }
 }
