@@ -8,7 +8,7 @@ const Button = ({ handleClick, text }) => (
 )
 
 const Statistic = ({label, text}) => (
-  <div>{label}: {text}</div>
+  <tr><th>{label}</th><td>{text}</td></tr>
 )
 
 class Statistics extends React.Component {
@@ -43,11 +43,15 @@ class Statistics extends React.Component {
           <p>Ei annettuja palautteita.</p>
         ) : (
           <div>
-          <Statistic label="hyvä" text={this.props.valueHyva} />
-          <Statistic label="neutraali" text={this.props.valueNeutraali} />
-          <Statistic label="huono" text={this.props.valueHuono} />
-          <Statistic label="keskiarvo" text={this.keskiarvo()} />
-          <Statistic label="positiivisia" text={this.positiivisia()} />
+          <table>
+            <tbody>
+            <Statistic label="hyvä" text={this.props.valueHyva} />
+            <Statistic label="neutraali" text={this.props.valueNeutraali} />
+            <Statistic label="huono" text={this.props.valueHuono} />
+            <Statistic label="keskiarvo" text={this.keskiarvo()} />
+            <Statistic label="positiivisia" text={this.positiivisia()} />
+            </tbody>
+          </table>
           </div>
         )}
       </div>
