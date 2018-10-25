@@ -73,25 +73,17 @@ class App extends React.Component {
     console.log("componentWillUnmount()")
   }
 
-  clickHyva = () => {
-    this.setState({palauteHyvä : this.state.palauteHyvä + 1})
-  }
-
-  clickNeutraali = () => {
-    this.setState({palauteNeutraali : this.state.palauteNeutraali + 1})
-  }
-
-  clickHuono = () => {
-    this.setState({palauteHuono : this.state.palauteHuono + 1})
+  clickPalaute = (valinta) => {
+    this.setState({['palaute' + valinta] : this.state['palaute' + valinta] + 1})
   }
 
   render() {
     return (
       <div>
         <h1>Anna palautetta</h1>
-        <Button handleClick={this.clickHyva} text="hyvä" />
-        <Button handleClick={this.clickNeutraali} text="neutraali" />
-        <Button handleClick={this.clickHuono} text="huono" />
+        <Button handleClick={() => this.clickPalaute('Hyvä')} text="hyvä" />
+        <Button handleClick={() => this.clickPalaute('Neutraali')} text="neutraali" />
+        <Button handleClick={() => this.clickPalaute('Huono')} text="huono" />
         <Statistics label="Statistiikka" valueHyva={this.state.palauteHyvä} valueNeutraali={this.state.palauteNeutraali}
           valueHuono={this.state.palauteHuono} />
       </div>
